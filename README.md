@@ -1,8 +1,3 @@
-Library
-/
-README.md
-
-
 <p align="center">
   <img
     src="./docsduckbanner.png"
