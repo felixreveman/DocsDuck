@@ -1,0 +1,4 @@
+interface:
+  display_name: "DocsDuck Internal"
+  short_description: "Create verified internal product documentation"
+  default_prompt: "Use $docsduck-internal to document this product area for engineering and support."

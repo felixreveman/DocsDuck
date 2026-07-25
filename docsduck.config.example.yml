@@ -1,0 +1,32 @@
+version: 1
+
+output:
+  mode: files
+  external_directory: docs/external
+  internal_directory: docs/internal
+
+documentation:
+  locale: en
+  status: draft
+  preserve_existing_content: true
+  source_references: true
+
+publishing:
+  enabled: false
+  destination: null
+  strategy: draft
+  require_confirmation: true
+
+version_control:
+  create_commit: false
+
+safety:
+  never_publish_unverified_content: true
+  redact_sensitive_values: true
+  require_review_for_runbooks: true
+
+ignore:
+  - node_modules
+  - dist
+  - build
+  - coverage
