@@ -30,7 +30,7 @@
 
 ## What ships today
 
-DocsDuck currently contains two installable Agent Skills:
+DocsDuck currently contains three installable Agent Skills:
 
 - [DocsDuck External](./skills/docsduck-external) creates and maintains
   customer-facing help articles, onboarding guides, account and security
@@ -38,8 +38,11 @@ DocsDuck currently contains two installable Agent Skills:
 - [DocsDuck Internal](./skills/docsduck-internal) creates and maintains
   architecture guides, system flows, support playbooks, operational runbooks,
   integration documentation, and engineering onboarding content.
+- [CommitDuck](./skills/commitduck) reviews the intended Git change, updates or
+  creates affected customer and internal documentation, validates the combined
+  change, and creates a safe local commit when explicitly requested.
 
-Both skills:
+DocsDuck External and Internal:
 
 - inspect repository evidence before writing;
 - distinguish verified facts from inferences and missing information;
@@ -53,6 +56,11 @@ Both skills:
 - require configuration, an available authorized integration, and any required
   confirmation before external publishing;
 - report what they could not verify.
+
+CommitDuck adds a documentation gate before Git commits. It treats “no
+documentation change required” as a decision that must be supported by the
+actual diff, not assumed from filenames or change size. Pushes, pull requests,
+merges, tags, and releases remain separately authorized actions.
 
 DocsDuck is instruction-based software. The skill directs the coding agent
 running it; it does not bundle an LLM, repository indexer, hosted service,
@@ -135,9 +143,34 @@ team invitations. Do not invent production remediation steps.
 Internal source:
 [skills/docsduck-internal](./skills/docsduck-internal)
 
+### CommitDuck
+
+CommitDuck connects product work and documentation maintenance before a change
+is committed. It inspects staged, unstaged, deleted, renamed, and relevant
+untracked files; classifies external and internal documentation impact; updates
+only justified documentation; runs repository validation; and commits the
+confirmed scope.
+
+Useful requests include:
+
+```text
+Use CommitDuck to review everything changed for this feature, update affected
+customer and internal documentation, validate it, and commit the complete
+change.
+```
+
+```text
+Use CommitDuck to prepare this bug fix for commit. If the existing
+documentation remains accurate, explain why no documentation edit is needed.
+Do not push.
+```
+
+CommitDuck source:
+[skills/commitduck](./skills/commitduck)
+
 ## How it works
 
-Each skill follows the same evidence-first lifecycle.
+The documentation skills follow the same evidence-first lifecycle.
 
 ### 1. Resolve the documentation question
 
@@ -175,6 +208,11 @@ The agent checks terminology, evidence, permissions, outcomes, failure modes,
 sensitive information, source references, and preservation of unaffected
 content. The completion report lists changed files and unresolved gaps.
 
+CommitDuck runs this lifecycle against the intended Git diff before staging.
+It blocks the commit when documentation evidence, validation, or change scope
+is unresolved. A local commit requires an explicit request; remote actions
+require their own authorization.
+
 ## Installation
 
 Clone the canonical repository:
@@ -184,7 +222,22 @@ git clone https://github.com/DocsDuck/DocsDuck.git
 cd DocsDuck
 ```
 
-### Install both skills for compatible agents
+### Install all skills with GitHub CLI
+
+```bash
+gh skill install DocsDuck/DocsDuck --all --agent codex --scope project
+```
+
+Change `--agent codex` to the supported coding agent you use, or choose a user
+scope when you want the skills available across projects.
+
+### Install all skills with the open skills CLI
+
+```bash
+npx skills add DocsDuck/DocsDuck --skill '*'
+```
+
+### Install all skills manually
 
 Many Agent Skills-compatible tools discover personal skills under
 `~/.agents/skills`:
@@ -193,6 +246,7 @@ Many Agent Skills-compatible tools discover personal skills under
 mkdir -p ~/.agents/skills
 cp -R skills/docsduck-external ~/.agents/skills/docsduck-external
 cp -R skills/docsduck-internal ~/.agents/skills/docsduck-internal
+cp -R skills/commitduck ~/.agents/skills/commitduck
 ```
 
 ### Install for one project
@@ -203,6 +257,7 @@ Copy the skills into the target repository:
 mkdir -p /path/to/product/.agents/skills
 cp -R skills/docsduck-external /path/to/product/.agents/skills/
 cp -R skills/docsduck-internal /path/to/product/.agents/skills/
+cp -R skills/commitduck /path/to/product/.agents/skills/
 ```
 
 Some coding agents use a product-specific skills directory, such as
@@ -227,7 +282,7 @@ Safe defaults apply when no configuration exists:
 - `docs/external/` and `docs/internal/` as fallback directories;
 - draft status;
 - no external publishing;
-- no Git commit;
+- no Git commit unless explicitly requested;
 - unverified behavior reported rather than invented.
 
 Supported output modes are:
@@ -297,9 +352,10 @@ compliance, localization, and behavior outside the available evidence.
 
 DocsDuck is **early alpha**.
 
-The External and Internal skill workflows, references, configuration example,
-output fixtures, and repository validation are implemented. Interfaces and
-output conventions may change before the first stable release.
+The External, Internal, and CommitDuck skill workflows, references,
+configuration example, output fixtures, and repository validation are
+implemented. Interfaces and output conventions may change before the first
+stable release.
 
 Not currently included:
 
@@ -322,7 +378,8 @@ DocsDuck/
 ├── docsduck.config.example.yml
 ├── examples/
 │   ├── external/
-│   └── internal/
+│   ├── internal/
+│   └── commitduck/
 ├── scripts/
 │   └── validate-repository.mjs
 └── skills/
@@ -330,7 +387,11 @@ DocsDuck/
     │   ├── SKILL.md
     │   ├── agents/
     │   └── references/
-    └── docsduck-internal/
+    ├── docsduck-internal/
+    │   ├── SKILL.md
+    │   ├── agents/
+    │   └── references/
+    └── commitduck/
         ├── SKILL.md
         ├── agents/
         └── references/
@@ -353,7 +414,7 @@ Potential future work includes:
 
 - forward-testing against representative open-source products;
 - framework-specific evidence guides;
-- documentation-impact reports for pull requests;
+- automated documentation-impact checks for pull requests;
 - terminology and removed-route checks;
 - output-schema validation;
 - approved publishing integrations;
@@ -367,7 +428,7 @@ released.
 
 Useful contributions include:
 
-- testing either skill against a real repository;
+- testing any skill against a real repository;
 - reporting unsupported or hallucinated behavior;
 - improving evidence and verification rules;
 - adding carefully scoped framework references;

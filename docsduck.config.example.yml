@@ -19,6 +19,11 @@ publishing:
 
 version_control:
   create_commit: false
+  documentation_gate: required
+  stage_documentation_with_code: true
+  push: false
+  allow_default_branch_push: false
+  commit_message_style: repository
 
 safety:
   never_publish_unverified_content: true

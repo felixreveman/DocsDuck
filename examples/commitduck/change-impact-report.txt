@@ -1,0 +1,27 @@
+Change goal:
+Add workspace invitation expiry and resend behavior.
+
+Documentation impact:
+both_required
+
+External documentation:
+- Update the invitation guide with the verified expiry and resend workflow.
+
+Internal documentation:
+- Update the invitation flow with expiry state, resend authorization, and
+  provider failure behavior.
+
+Gate result:
+pass_updated
+
+Validation:
+- repository documentation validation passed
+- relevant unit tests passed
+
+Commit scope:
+- invitation implementation and tests
+- affected external guide
+- affected internal flow
+
+Remote actions:
+- not requested

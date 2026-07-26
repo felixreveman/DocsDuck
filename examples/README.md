@@ -6,6 +6,7 @@ illustrated workflow exists.
 
 - `external/invite-a-team-member.md` shows a customer-facing task article.
 - `internal/team-invitation-flow.md` shows an internal system-flow document.
+- `commitduck/change-impact-report.txt` shows CommitDuck's pre-commit summary.
 
 When DocsDuck runs against a real repository, it must replace the illustrative
 source paths and content with evidence from that product.

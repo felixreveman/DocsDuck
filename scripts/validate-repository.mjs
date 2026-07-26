@@ -133,6 +133,32 @@ for (const example of walkMarkdown(join(repositoryRoot, "examples"))) {
   }
 }
 
+const commitduckReport = join(
+  repositoryRoot,
+  "examples",
+  "commitduck",
+  "change-impact-report.txt",
+);
+if (!existsSync(commitduckReport)) {
+  fail("examples/commitduck/change-impact-report.txt is missing");
+} else {
+  const content = read(commitduckReport);
+  for (const field of [
+    "Change goal:",
+    "Documentation impact:",
+    "External documentation:",
+    "Internal documentation:",
+    "Gate result:",
+    "Validation:",
+    "Commit scope:",
+    "Remote actions:",
+  ]) {
+    if (!content.includes(field)) {
+      fail(`${relativePath(commitduckReport)} is missing ${field}`);
+    }
+  }
+}
+
 for (const markdownFile of walkMarkdown(repositoryRoot)) {
   const content = read(markdownFile);
   for (const match of content.matchAll(/\]\(([^)]+)\)/g)) {
@@ -164,7 +190,11 @@ if (!readme.includes("https://github.com/DocsDuck/DocsDuck.git")) {
 if (readme.includes("https://github.com/felixreveman/DocsDuck.git")) {
   fail("README.md contains the obsolete clone URL");
 }
-for (const skillName of ["docsduck-external", "docsduck-internal"]) {
+for (const skillName of [
+  "docsduck-external",
+  "docsduck-internal",
+  "commitduck",
+]) {
   if (!readme.includes(`skills/${skillName}`)) {
     fail(`README.md must link to skills/${skillName}`);
   }
