@@ -38,7 +38,7 @@ DocsDuck currently contains three installable Agent Skills:
 - [DocsDuck Internal](./skills/docsduck-internal) creates and maintains
   architecture guides, system flows, support playbooks, operational runbooks,
   integration documentation, and engineering onboarding content.
-- [CommitDuck](./skills/commitduck) reviews the intended Git change, updates or
+- [DocsDuck Commit](./skills/docsduck-commit) reviews the intended Git change, updates or
   creates affected customer and internal documentation, validates the combined
   change, and creates a safe local commit when explicitly requested.
 
@@ -57,7 +57,7 @@ DocsDuck External and Internal:
   confirmation before external publishing;
 - report what they could not verify.
 
-CommitDuck adds a documentation gate before Git commits. It treats “no
+DocsDuck Commit adds a documentation gate before Git commits. It treats “no
 documentation change required” as a decision that must be supported by the
 actual diff, not assumed from filenames or change size. Pushes, pull requests,
 merges, tags, and releases remain separately authorized actions.
@@ -143,9 +143,9 @@ team invitations. Do not invent production remediation steps.
 Internal source:
 [skills/docsduck-internal](./skills/docsduck-internal)
 
-### CommitDuck
+### DocsDuck Commit
 
-CommitDuck connects product work and documentation maintenance before a change
+DocsDuck Commit connects product work and documentation maintenance before a change
 is committed. It inspects staged, unstaged, deleted, renamed, and relevant
 untracked files; classifies external and internal documentation impact; updates
 only justified documentation; runs repository validation; and commits the
@@ -154,19 +154,19 @@ confirmed scope.
 Useful requests include:
 
 ```text
-Use CommitDuck to review everything changed for this feature, update affected
+Use DocsDuck Commit to review everything changed for this feature, update affected
 customer and internal documentation, validate it, and commit the complete
 change.
 ```
 
 ```text
-Use CommitDuck to prepare this bug fix for commit. If the existing
+Use DocsDuck Commit to prepare this bug fix for commit. If the existing
 documentation remains accurate, explain why no documentation edit is needed.
 Do not push.
 ```
 
-CommitDuck source:
-[skills/commitduck](./skills/commitduck)
+DocsDuck Commit source:
+[skills/docsduck-commit](./skills/docsduck-commit)
 
 ## How it works
 
@@ -208,7 +208,7 @@ The agent checks terminology, evidence, permissions, outcomes, failure modes,
 sensitive information, source references, and preservation of unaffected
 content. The completion report lists changed files and unresolved gaps.
 
-CommitDuck runs this lifecycle against the intended Git diff before staging.
+DocsDuck Commit runs this lifecycle against the intended Git diff before staging.
 It blocks the commit when documentation evidence, validation, or change scope
 is unresolved. A local commit requires an explicit request; remote actions
 require their own authorization.
@@ -246,7 +246,7 @@ Many Agent Skills-compatible tools discover personal skills under
 mkdir -p ~/.agents/skills
 cp -R skills/docsduck-external ~/.agents/skills/docsduck-external
 cp -R skills/docsduck-internal ~/.agents/skills/docsduck-internal
-cp -R skills/commitduck ~/.agents/skills/commitduck
+cp -R skills/docsduck-commit ~/.agents/skills/docsduck-commit
 ```
 
 ### Install for one project
@@ -257,7 +257,7 @@ Copy the skills into the target repository:
 mkdir -p /path/to/product/.agents/skills
 cp -R skills/docsduck-external /path/to/product/.agents/skills/
 cp -R skills/docsduck-internal /path/to/product/.agents/skills/
-cp -R skills/commitduck /path/to/product/.agents/skills/
+cp -R skills/docsduck-commit /path/to/product/.agents/skills/
 ```
 
 Some coding agents use a product-specific skills directory, such as
@@ -352,7 +352,7 @@ compliance, localization, and behavior outside the available evidence.
 
 DocsDuck is **early alpha**.
 
-The External, Internal, and CommitDuck skill workflows, references,
+The External, Internal, and DocsDuck Commit skill workflows, references,
 configuration example, output fixtures, and repository validation are
 implemented. Interfaces and output conventions may change before the first
 stable release.
@@ -379,7 +379,7 @@ DocsDuck/
 ├── examples/
 │   ├── external/
 │   ├── internal/
-│   └── commitduck/
+│   └── docsduck-commit/
 ├── scripts/
 │   └── validate-repository.mjs
 └── skills/
@@ -391,7 +391,7 @@ DocsDuck/
     │   ├── SKILL.md
     │   ├── agents/
     │   └── references/
-    └── commitduck/
+    └── docsduck-commit/
         ├── SKILL.md
         ├── agents/
         └── references/

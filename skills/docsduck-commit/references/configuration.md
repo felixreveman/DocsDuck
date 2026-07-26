@@ -1,9 +1,9 @@
-# CommitDuck configuration
+# DocsDuck Commit configuration
 
 Read `docsduck.config.yml` from the repository root when present. Unknown fields
 do not grant permission and must not be guessed.
 
-Supported CommitDuck settings:
+Supported DocsDuck Commit settings:
 
 ```yaml
 version_control:
@@ -20,7 +20,7 @@ version_control:
 - `create_commit`: permits a local commit only when the user also explicitly
   requests a commit. Configuration alone is not authorization.
 - `documentation_gate`: `required` blocks commits on an unresolved gate;
-  `report` allows CommitDuck to report impact without preparing a commit.
+  `report` allows DocsDuck Commit to report impact without preparing a commit.
 - `stage_documentation_with_code`: include required documentation in the same
   commit as its implementation.
 - `push`: permits a push only when the user explicitly requests it.

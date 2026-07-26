@@ -133,16 +133,16 @@ for (const example of walkMarkdown(join(repositoryRoot, "examples"))) {
   }
 }
 
-const commitduckReport = join(
+const docsduckCommitReport = join(
   repositoryRoot,
   "examples",
-  "commitduck",
+  "docsduck-commit",
   "change-impact-report.txt",
 );
-if (!existsSync(commitduckReport)) {
-  fail("examples/commitduck/change-impact-report.txt is missing");
+if (!existsSync(docsduckCommitReport)) {
+  fail("examples/docsduck-commit/change-impact-report.txt is missing");
 } else {
-  const content = read(commitduckReport);
+  const content = read(docsduckCommitReport);
   for (const field of [
     "Change goal:",
     "Documentation impact:",
@@ -154,7 +154,7 @@ if (!existsSync(commitduckReport)) {
     "Remote actions:",
   ]) {
     if (!content.includes(field)) {
-      fail(`${relativePath(commitduckReport)} is missing ${field}`);
+      fail(`${relativePath(docsduckCommitReport)} is missing ${field}`);
     }
   }
 }
@@ -193,7 +193,7 @@ if (readme.includes("https://github.com/felixreveman/DocsDuck.git")) {
 for (const skillName of [
   "docsduck-external",
   "docsduck-internal",
-  "commitduck",
+  "docsduck-commit",
 ]) {
   if (!readme.includes(`skills/${skillName}`)) {
     fail(`README.md must link to skills/${skillName}`);

@@ -1,9 +1,9 @@
 ---
-name: commitduck
+name: docsduck-commit
 description: Review working-tree changes, update or create affected customer and internal documentation, validate the combined change, and create a safe Git commit. Use before committing completed feature work, fixes, refactors, configuration changes, migrations, integrations, or other repository updates when documentation impact must be checked rather than assumed.
 ---
 
-# CommitDuck
+# DocsDuck Commit
 
 Place a documentation gate in front of Git commits. Inspect the complete
 intended change, synchronize affected documentation, validate code and docs

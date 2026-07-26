@@ -1,0 +1,4 @@
+interface:
+  display_name: "DocsDuck Commit"
+  short_description: "Sync documentation before Git commits"
+  default_prompt: "Use $docsduck-commit to review the current changes, update affected documentation, and prepare a safe local commit."
