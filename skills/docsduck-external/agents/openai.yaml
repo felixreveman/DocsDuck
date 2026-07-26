@@ -1,0 +1,4 @@
+interface:
+  display_name: "DocsDuck External"
+  short_description: "Create verified customer product documentation"
+  default_prompt: "Use $docsduck-external to create customer-facing help for this product workflow."
